@@ -1,24 +1,62 @@
 from game.combat import attack
 from models.enemy import Enemy
-from models.player import player
+from models.player_ import player_
 import os
 from utils.storage import save_game, load_game
 
 
 def create_player():
     name = input('Enter your name: ')
-    return player(name)
+    return player_(name)
 
 def fight(player, enemy):
-    while player.hp > 0 and enemy.hp > 0:
-        attack(player, enemy)
 
-        if enemy.hp <= 0:
-            print('Enemy defeated')
-            break
-        attack(enemy, player)
-    if player.hp <= 0:
-        print('You died')
+    # Initialize turn counter for temporary defense
+
+    turn_counter = 0
+
+    # Combat loop
+    while player.hp > 0 and enemy.hp > 0:
+        print(f'\n{player.name} VS {enemy.name}')
+        while True:
+
+            print(f'{player.name} HP: {player.hp}/{player.hpmax}')
+            print('VS')
+            print(f'{enemy.name} HP: {enemy.hp}/{enemy.hpmax}') 
+            print('\n1 - Attack')
+            print('2 - Heal')
+            print('3 - Defend')
+            print('4 - Run')
+            choice = input('Choose: ')
+
+            # Increment turn counter for temporary defense
+            turn_counter += 1
+
+            if turn_counter > 3:
+                # Reset temporary defense after 3 turns
+                player.reset_defense()
+
+            if choice == '1':
+                attack(player, enemy)
+            elif choice == '2':
+                player.heal(10)
+            elif choice == '3':
+                player.temporary_defense += 2
+                
+                turn_counter = 0
+                
+            elif choice == '4':
+                print('You ran away')
+                return
+
+            if enemy.hp <= 0:
+                print('Enemy defeated')
+                
+                break
+
+            attack(enemy, player)
+            if player.hp <= 0:
+                print('You died')
 
 def game_loop(Player):
     while True:
