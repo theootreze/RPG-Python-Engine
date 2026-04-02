@@ -54,9 +54,17 @@ def fight(player, enemy):
                 
                 break
 
+            if enemy.hp > enemy.hpmax * 0.3:
+                attack(enemy, player)
+            else:
+                enemy.heal(5)
+                print(f'{enemy.name} heals for 5 HP!')
+
             attack(enemy, player)
             if player.hp <= 0:
                 print('You died')
+
+                break
 
 def game_loop(Player):
     while True:
@@ -79,6 +87,7 @@ def start_game():
         choice = input('Load saved game? (y/n): ')
         if choice.lower() == 'y':
             Player = load_game()
+            print(f'Welcome back, {Player.name}!')
         else:
             Player = create_player()
     else:

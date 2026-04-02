@@ -5,6 +5,7 @@ class Enemy:
         self.hpmax = hp
         self.attack = attack
         self.defense = 1
+        self.temporary_defense = 0
     
     def take_damage(self, amount):
         self.hp -= amount
