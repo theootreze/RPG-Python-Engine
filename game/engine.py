@@ -27,7 +27,7 @@ def game_loop(Player):
         if choice == '1' :
 
             enemy = Enemy()
-            fight(player, enemy)
+            fight(Player, enemy)
 
         elif choice == '2':
             break
